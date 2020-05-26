@@ -8,19 +8,19 @@ pipeline {
 		}
 		stage("Start Grid") {
 			steps {
-				sh "docker-compose up -d hub chrome firefox"
+				sh "docker-compose -f hub.docker-compose.yaml up -d hub chrome firefox"
 			}
 		}
 		stage("Run Test") {
 			steps {
-				sh "docker-compose up test-module"
+				sh "docker-compose -f hub.docker-compose.yaml up test-module"
 			}
 		}
 	}
 	post {
 		always {
 			archiveArtifacts artifacts: 'output/**'
-			sh "docker-compose down"
+			sh "docker-compose -f hub.docker-compose.yaml down"
 		}
 	}
 }
