@@ -16,6 +16,19 @@ pipeline {
 				sh "docker-compose -f hub.docker-compose.yaml up test-module"
 			}
 		}
+		stage("Allure report") {
+		    steps {
+			    script {
+				    allure([
+					    includeProperties: false,
+					    jdk: '',
+					    properties: [],
+					    reportBuildPolicy: 'ALWAYS',
+					    results: [[path: 'target/allure-results']]
+				    ])
+			    }
+		    }
+		}		
 	}
 	post {
 		always {
