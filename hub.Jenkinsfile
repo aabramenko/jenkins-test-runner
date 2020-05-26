@@ -19,13 +19,9 @@ pipeline {
 	}
 	post {
 		always {
-			allure includeProperties: false, jdk: '', results: [[path: 'output/test-results/allure-results']]
-		}
-		always {
 			archiveArtifacts artifacts: 'output/**'
-		}
-		always {
 			sh "docker-compose -f hub.docker-compose.yaml down"
+			// allure includeProperties: false, jdk: '', results: [[path: 'output/test-results/allure-results']]
 		}
 	}
 }
