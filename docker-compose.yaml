@@ -1,0 +1,31 @@
+version: "3"
+services:
+  hub:
+    image: selenium/hub:3.14
+  chrome:
+    image: selenium/node-chrome:3.14      
+    depends_on:
+      - hub
+    environment:
+      - HUB_HOST=hub
+  firefox:
+    image: selenium/node-firefox:3.14
+    shm_size: '512mb'   
+    depends_on:
+      - hub
+    environment:
+      - HUB_HOST=hub
+  test-module:
+    image: alekseiabramenko/selenium-test-environment
+    depends_on:
+      - chrome
+      - firefox
+    environment:
+      - HUB_HOST=hub
+      - BROWSER=chrome
+      - HEADLESS=false
+      - VIDEO=true
+      - GRID=true
+      - SUITE=test-suite.xml
+    volumes:
+      - ./output/test-results:/usr/share/selenium-tests/target      
