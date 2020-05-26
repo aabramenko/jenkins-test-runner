@@ -15,10 +15,11 @@ pipeline {
 			steps {
 				sh "docker-compose -f hub.docker-compose.yaml up test-module"
 			}
-		}		
+		}
 	}
 	post {
 		always {
+			allure includeProperties: false, jdk: '', results: [[path: 'output/test-results/allure-results']]
 			archiveArtifacts artifacts: 'output/**'
 			sh "docker-compose -f hub.docker-compose.yaml down"
 		}
