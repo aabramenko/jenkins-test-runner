@@ -18,15 +18,16 @@ pipeline {
 		}
 		stage("Allure report") {
 		    steps {
-		    script {
-			    allure([
-				    includeProperties: false,
-				    jdk: '',
-				    properties: [],
-				    reportBuildPolicy: 'ALWAYS',
-				    results: [[path: 'output/test-results/allure-results']]
-			    ])
-		    }
+		    	    sh 'chmod -R o+xw output/test-results/allure-results'
+			    script {
+				    allure([
+					    includeProperties: false,
+					    jdk: '',
+					    properties: [],
+					    reportBuildPolicy: 'ALWAYS',
+					    results: [[path: 'output/test-results/allure-results']]
+				    ])
+			    }
 		    }
 		}		
 	}
