@@ -21,7 +21,7 @@ pipeline {
 		always {
 			archiveArtifacts artifacts: 'output/**'
 			sh "docker-compose down"
-			sh "rm -r output/"
+			sh "sudo rm -r output/"
 		}
 	}
 }
