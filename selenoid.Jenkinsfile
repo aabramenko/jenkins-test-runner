@@ -6,8 +6,9 @@ pipeline {
             git 'https://github.com/aabramenko/jenkins-test-runner.git'
           }
         }
-		stage("Pull Auxiliary Images") {
+		stage("Auxiliary Images and network") {
 			steps {
+			    sh "docker network create selenoidnet"
 			    sh "docker pull selenoid/firefox:76.0"
 			    sh "docker pull selenoid/chrome:83.0"
 			    sh "docker pull selenoid/video-recorder"
@@ -20,7 +21,6 @@ pipeline {
 		}
 		stage("Start Selenoid") {
 			steps {
-			    sh "docker-compose -f selenoid.docker-compose.yaml down"
 				sh "docker-compose -f selenoid.docker-compose.yaml up -d selenoid selenoid-ui"
 			}
 		}
