@@ -1,8 +1,13 @@
 version: "3"
+networks:
+  selenoidnet:
+    external:
+      name: selenoidnet # This assumes the network is already created
 services:
   selenoid:
     image: "aerokube/selenoid:latest"
-    network_mode: bridge
+    networks:
+      selenoidnet: null
     volumes:
       - "$PWD/etc:/etc/selenoid"
       - "/var/run/docker.sock:/var/run/docker.sock"
@@ -10,14 +15,13 @@ services:
       - "$PWD/logs:/opt/selenoid/logs"
     environment:
       - OVERRIDE_VIDEO_OUTPUT_DIR=$PWD/video
-    command: ["-conf", "/etc/selenoid/browsers.json", "-video-output-dir", "/opt/selenoid/video", "-log-output-dir", "/opt/selenoid/logs", "-limit", "6"]
+    command: ["-conf", "/etc/selenoid/browsers.json", "-video-output-dir", "/opt/selenoid/video", "-log-output-dir", "/opt/selenoid/logs", "-limit", "6", "-container-network", "selenoidnet"]
     ports:
       - "4444:4444"
   selenoid-ui:
     image: "aerokube/selenoid-ui:latest"
-    network_mode: bridge
-    links:
-      - selenoid
+    networks:
+      selenoidnet: null
     depends_on:
       - selenoid
     ports:
@@ -26,10 +30,10 @@ services:
   test-module:
     image: alekseiabramenko/selenium-test-environment
     environment:
-      - HUB_HOST=172.21.0.1
-      - BROWSER=chrome
-      - HEADLESS=false
-      - VIDEO=true
+      - HUB_HOST=${HUB_HOST}
+      - BROWSER=${BROWSER}
+      - HEADLESS=${HEADLESS}
+      - VIDEO=${VIDEO}
       - GRID=true
       - SUITE=test-suite.xml
     volumes:
