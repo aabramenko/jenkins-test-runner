@@ -2,7 +2,6 @@ version: "3"
 services:
   selenoid:
     image: "aerokube/selenoid:latest"
-    container_name: "selenoid"
     network_mode: bridge
     volumes:
       - "$PWD/etc:/etc/selenoid"
@@ -16,7 +15,6 @@ services:
       - "4444:4444"
   selenoid-ui:
     image: "aerokube/selenoid-ui:latest"
-    container_name: "selenoid-ui"
     network_mode: bridge
     links:
       - selenoid
