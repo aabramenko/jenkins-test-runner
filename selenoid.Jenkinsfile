@@ -1,11 +1,6 @@
 pipeline {
 	agent any
 	stages {
-		stage("Tear down old containers") {
-			steps {
-				sh "docker-compose -f selenoid.docker-compose.yaml down"
-			}
-		}
         stage('Cloning Git') {
           steps {
             git 'https://github.com/aabramenko/jenkins-test-runner.git'
@@ -25,6 +20,7 @@ pipeline {
 		}
 		stage("Start Selenoid") {
 			steps {
+			    sh "docker-compose -f selenoid.docker-compose.yaml down"
 				sh "docker-compose -f selenoid.docker-compose.yaml up -d selenoid selenoid-ui"
 			}
 		}
