@@ -34,6 +34,7 @@ pipeline {
 		always {
 			archiveArtifacts artifacts: 'output/**'
 			sh "docker-compose -f selenoid.docker-compose.yaml down"
+			sh "docker network rm selenoidnet"
 			publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'output/test-results/surefire-reports/html', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: ''])
 			// allure includeProperties: false, jdk: '', results: [[path: 'output/test-results/allure-results']]
 		}
