@@ -1,6 +1,11 @@
 pipeline {
 	agent any
 	stages {
+        stage('Cloning Git') {
+          steps {
+            git 'https://github.com/aabramenko/jenkins-test-runner.git'
+          }
+        }
 		stage("Pull Auxiliary Images") {
 			steps {
 			    sh "docker pull selenoid/firefox:76.0"
