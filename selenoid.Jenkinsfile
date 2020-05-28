@@ -26,9 +26,7 @@ pipeline {
 		}
 		stage("Run Test") {
 		    warnError(message: 'Tests failed') {
-                steps {
-                    sh "docker-compose -f selenoid.docker-compose.yaml up test-module"
-                }
+                sh "docker-compose -f selenoid.docker-compose.yaml up test-module"
 			}
 		}
 	}
