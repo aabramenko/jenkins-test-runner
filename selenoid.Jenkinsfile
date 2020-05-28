@@ -10,7 +10,7 @@ pipeline {
 			steps {
 			    sh "docker pull selenoid/firefox:76.0"
 			    sh "docker pull selenoid/chrome:83.0"
-			    sh "docker pull selenoid/video-recorder:latest-release"
+			    sh "docker pull selenoid/video-recorder"
 			}
 		}
 		stage("Pull Latest Test Image") {
