@@ -26,7 +26,7 @@ pipeline {
 		}
 		stage("Run Test") {
 			steps {
-				sh "docker-compose -f selenoid.docker-compose.yaml up --exit-code-from test-module"
+				sh "docker-compose -f selenoid.docker-compose.yaml up --exit-code-from test-module test-module"
 			}
 		}
 	}
